@@ -1,3 +1,78 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    @apply bg-black text-gray-100 antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+    @apply tracking-tight;
+  }
+}
+
+::selection {
+  background-color: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+}
+
+/* Cyber Dot-Grid Background Overlay */
+.cyber-grid {
+  background-image: radial-gradient(rgba(34, 197, 94, 0.08) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.cyber-grid-glow {
+  background: radial-gradient(circle 600px at 50% 200px, rgba(34, 197, 94, 0.06), transparent 80%);
+}
+
+/* Custom Neon Green Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #181818;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #22c55e;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
+
+/* Glowing Border effect */
+.glow-border-hover {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.glow-border-hover::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.3), transparent);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glow-border-hover:hover::after {
+  opacity: 1;
+}
+
+/* Code block terminal style */
+.code-terminal {
+  background: rgba(10, 10, 10, 0.8);
+  border: 1px solid #1f1f1f;
+  backdrop-filter: blur(12px);
+}
