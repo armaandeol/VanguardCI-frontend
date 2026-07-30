@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { apiFetch } from '../lib/api'
 import { useAuth } from '../context/AuthContext'
 
@@ -35,11 +35,43 @@ export default function Dashboard({ installations: initialInstallations }) {
     return () => clearInterval(interval)
   }, [installations])
 
+  // The installations endpoint self-heals against GitHub - if the app was
+  // uninstalled, it comes back empty and we shouldn't keep showing the dashboard.
   useEffect(() => {
+    if (installations && installations.length === 0) {
+      window.location.href = '/'
+    }
+  }, [installations])
+
+  const refetchRepos = useCallback(() => {
     apiFetch('/repos')
       .then(setRepos)
       .catch((err) => setError(err.message))
   }, [])
+
+  useEffect(() => {
+    refetchRepos()
+  }, [refetchRepos])
+
+  // "Manage on GitHub" opens in a new tab - when the user comes back after
+  // adding/removing repos there, refresh so the change shows up without a
+  // manual reload. The webhook that syncs the change runs in the background,
+  // so re-check a couple of times to give it a moment to land.
+  useEffect(() => {
+    const refreshAll = () => {
+      setRefreshToken((token) => token + 1)
+      refetchRepos()
+    }
+
+    const handleFocus = () => {
+      refreshAll()
+      setTimeout(refreshAll, 3000)
+      setTimeout(refreshAll, 8000)
+    }
+
+    window.addEventListener('focus', handleFocus)
+    return () => window.removeEventListener('focus', handleFocus)
+  }, [refetchRepos])
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-gray-50 px-4 py-10">
@@ -53,9 +85,17 @@ export default function Dashboard({ installations: initialInstallations }) {
             <li className="px-4 py-3 text-sm text-gray-500">No installations yet.</li>
           )}
           {installations.map((installation) => (
-            <li key={installation.installationId} className="flex items-center justify-between px-4 py-3 text-sm">
+            <li key={installation.installationId} className="flex items-center justify-between gap-3 px-4 py-3 text-sm">
               <span className="text-gray-700">Installation {installation.installationId}</span>
               <span className={statusFor(installation).tone}>{statusFor(installation).label}</span>
+              <a
+                href={`https://github.com/settings/installations/${installation.installationId}`}
+                target="_blank"
+                rel="noreferrer"
+                className="shrink-0 rounded-md border border-gray-300 px-2 py-1 text-xs font-medium text-gray-600 transition hover:bg-gray-50"
+              >
+                Manage on GitHub
+              </a>
             </li>
           ))}
         </ul>
