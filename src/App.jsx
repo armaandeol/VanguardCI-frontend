@@ -29,10 +29,10 @@ function App() {
 
   if (loading || (user && installationsLoading)) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-black">
+      <div className="flex min-h-screen items-center justify-center bg-canvas">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-green-500/20 border-t-brand-green-500 shadow-glow" />
-          <p className="text-xs font-mono tracking-widest text-brand-green-400">LOADING VANGUARD...</p>
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-canvas-border border-t-brand-green-500" />
+          <p className="text-xs font-medium tracking-wide text-canvas-textMuted">Loading Vanguard…</p>
         </div>
       </div>
     )
