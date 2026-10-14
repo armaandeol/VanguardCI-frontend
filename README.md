@@ -93,7 +93,6 @@ cp .env.example .env   # fill in Firebase config + backend API URL
 npm run dev
 ```
 
-The backend must be running (see `../DeployIQ-backend/README.md`) with a matching Firebase project and `FRONTEND_URL` pointed at this app's origin for CORS and the GitHub OAuth redirect to work.
 
 ## Scripts
 
