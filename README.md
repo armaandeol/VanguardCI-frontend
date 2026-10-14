@@ -1,6 +1,6 @@
 # Vanguard — Frontend
 
-React + Vite frontend for Vanguard (DeployIQ), an AI-powered deployment risk assistant for GitHub pull requests. It is the dashboard layer on top of the [DeployIQ backend](../DeployIQ-backend/README.md) — authentication, GitHub App connection, and the visualized risk report all talk to that API.
+React + Vite frontend for Vanguard (DeployIQ), an AI-powered deployment risk assistant for GitHub pull requests. It is the dashboard layer on top of the [DeployIQ backend](https://github.com/armaandeol/Vanguard-Backend) — authentication, GitHub App connection, and the visualized risk report all talk to that API.
 
 ---
 
